@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+import cairosvg
 
 app = Flask(__name__)
 
