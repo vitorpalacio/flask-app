@@ -3,9 +3,8 @@ import hashlib
 
 app = Flask(__name__)
 
-# Token secreto original (para envio via header Authorization: Bearer ...)
+# Token secreto
 TOKEN_PLAIN = "d7F9kP2sX8vQ1nT4zB5wY6aL3rM0eC8u"
-# Hash do token (para validação)
 TOKEN_HASH = hashlib.sha256(TOKEN_PLAIN.encode("utf-8")).hexdigest()
 
 
@@ -19,7 +18,11 @@ def generate():
     if token_check != TOKEN_HASH:
         return jsonify({"error": "Token inválido"}), 401
 
-    # Se o token for válido
+    # Verificar se algum arquivo foi enviado
+    if not request.files:
+        return jsonify({"error": "Nenhum arquivo enviado"}), 400
+
+    # Retorna conectado se token válido e arquivo presente
     return jsonify({"message": "Conectado"}), 200
 
 
