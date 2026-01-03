@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, send_file, jsonify
 import hashlib
+import io
 
 app = Flask(__name__)
 
@@ -22,8 +23,15 @@ def generate():
     if not request.files:
         return jsonify({"error": "Nenhum arquivo enviado"}), 400
 
-    # Retorna conectado se token válido e arquivo presente
-    return jsonify({"message": "Conectado"}), 200
+    # Pegar o primeiro arquivo enviado (caso tenha mais de um)
+    file = list(request.files.values())[0]
+
+    # Retornar o arquivo para o cliente
+    return send_file(
+        io.BytesIO(file.read()),   # Conteúdo do arquivo em memória
+        download_name=file.filename,  # Nome do arquivo que será baixado
+        as_attachment=True            # Força download
+    )
 
 
 @app.route("/")
