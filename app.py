@@ -4,7 +4,7 @@ import io
 
 app = Flask(__name__)
 
-# Token secreto
+# Token secreto (melhor usar variáveis de ambiente em produção)
 TOKEN_PLAIN = "d7F9kP2sX8vQ1nT4zB5wY6aL3rM0eC8u"
 TOKEN_HASH = hashlib.sha256(TOKEN_PLAIN.encode("utf-8")).hexdigest()
 
@@ -26,11 +26,12 @@ def generate():
     # Pegar o primeiro arquivo enviado (caso tenha mais de um)
     file = list(request.files.values())[0]
 
-    # Retornar o arquivo para o cliente
+    # Preparar arquivo para envio ao n8n
     return send_file(
-        io.BytesIO(file.read()),   # Conteúdo do arquivo em memória
-        download_name=file.filename,  # Nome do arquivo que será baixado
-        as_attachment=True            # Força download
+        io.BytesIO(file.read()),      # Conteúdo do arquivo
+        download_name=file.filename,  # Nome do arquivo
+        as_attachment=True,           # Força o n8n a tratar como arquivo
+        mimetype=file.mimetype or "application/octet-stream"  # Tipo correto
     )
 
 
