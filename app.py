@@ -36,7 +36,7 @@ def generate():
 
 @app.route("/")
 def health():
-    return "OK"
+    return "OKK"
 
 
 if __name__ == "__main__":
