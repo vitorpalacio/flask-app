@@ -107,7 +107,7 @@ def generate_sizes():
     LOGO_NAME = LOGO_NAME.strip()
 
     # 4. Configurações
-    sizes = [256, 512]
+    sizes = [256, 512, 1024, 1536, 2048, 4096]
     LOGO_SCALE = 0.8
 
     # 5. Criar ZIP em memória
